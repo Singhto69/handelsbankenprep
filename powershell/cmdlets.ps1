@@ -1,15 +1,13 @@
-﻿.\helpfunctions\installers\DISM.ps1
-$AD_module_status = Get-Module -ListAvailable -Name ActiveDirectory
-$windowsVersion = [System.Environment]::OSVersion.Version
-#Write-Output $windowsVersion.Major
-#Write-Output $windowsVersion.toString()
+﻿$baseDirectory = Split-Path -Parent $PSCommandPath
+Write-Output $baseDirectory
+. $baseDirectory\helpfunctions\privilege\AdminPrivilegeCheck.ps1
 
-
-if ( -not $AD_module_status ) { 
-    Write-Output "ActiveDirectory missing, installing... " 
-    if($windowsVersion.Major -ge 10){
-    
-    }
-
-
-}
+$admin_privilege = Prompt-AdminPrivilege -origin_path $PSCommandPath
+if (-not $admin_privilege){
+    Write-Host "Failed to elevate admin privileges for main script , exiting..."
+} 
+Read-Host
+& $baseDirectory\helpfunctions\installers\DISM.ps1
+Read-Host
+& $baseDirectory\helpfunctions\installers\RSAT.ps1
+Read-Host

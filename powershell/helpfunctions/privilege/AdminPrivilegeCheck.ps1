@@ -1,21 +1,26 @@
 function Test-AdminPrivilege{
     $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent()
-    Write-Host $currentUser
     $principal = New-Object Security.Principal.WindowsPrincipal($currentUser)
-    Write-Host $principal
     return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-
 function Prompt-AdminPrivilege{
+    param(
+        [string]$origin_path = $PSCommandPath 
+    )
+
+
     $admin_check = Test-AdminPrivilege
-    Write-Output $admin_check
     if (-not $admin_check){
         Write-Warning "Administrator privileges are required. Please run this script as an Administrator."
-        $script = "-File `"" + $myInvocation.MyCommand.Definition + "`""
+        #Expected format example:  -File "C:\path\to\your\script.ps1"
+        #$script = '-File "' + $myInvocation.MyCommand.Definition + '"'
+        $script = '-File "' + $origin_path + '"'
+        Write-Host "Script Command: $script"
+        #  Start-Process Powershell = start another instance of powershell
+        # -ArgumentList passes $script as argument to the new instance
+        # -Verb RunAs builtin windows feature to prompt for admin privilege
         Start-Process PowerShell -ArgumentList $script -Verb RunAs
         exit
     }
 }
-
-#Prompt-AdminPrivilege
