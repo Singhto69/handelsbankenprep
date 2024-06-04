@@ -7,11 +7,14 @@
 #Clear-Host
 Write-Output "Checking admin privileges for process $PID ..."
 $admin_privilege = Prompt-AdminPrivilege -origin_path $PSCommandPath
-
+Read-Host
 if (-not $admin_privilege){
     Write-Host "Process $PID Failed to elevate admin privileges for main script , exiting..."
     exit
 }
+Read-Host
 Write-Output "Process $PID has admin privileges. Proceeding..."
 & $baseDirectory\helpfunctions\installers\DISM.ps1
 & $baseDirectory\helpfunctions\installers\RSAT.ps1
+
+Read-Host
