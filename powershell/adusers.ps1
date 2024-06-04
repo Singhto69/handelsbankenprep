@@ -6,9 +6,10 @@ $dependency1 = & $basedir\helpfunctions\installers\RSAT.ps1
 if ($admin_privilege -and $dependency0 -and $dependency1){Write-Host 'Dependency check completed... proceeding...'}
 Import-Module ActiveDirectory
 
-$tar_ou = Read-Host 'Where shall the users be added? use normal text'
-$tar_domain = Get-ADDomain
-& $basedir\helpfunctions\formatters\string_to_ou.ps1 -target_ou $tar_ou -base_domain $tar_domain
+$target_ou = & $basedir\helpfunctions\ad\ou_input_dn_output_selector_raw.ps1
+Write-Host $target_ou
+#Read-Host
+
 
 
 

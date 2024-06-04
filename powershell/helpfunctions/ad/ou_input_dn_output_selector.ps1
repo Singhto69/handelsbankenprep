@@ -1,6 +1,6 @@
 Import-Module ActiveDirectory
 
-function Lazy_Ou_Selector{
+function ou_input_dn_output_selector{
     $i = 0
     $ou_table = @{}
     Read-Host 'Please enter full or partial OU name...' | ForEach-Object {
@@ -19,5 +19,7 @@ function Lazy_Ou_Selector{
     }
     #|Format-Table Name, DistinguishedName -A}
 }
+
+ou_input_dn_output_selector
 
 #Get-ADOrganizationalUnit -Filter "Name -like '*superou*'" | Format-Table Name, DistinguishedName -A
