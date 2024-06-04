@@ -11,7 +11,8 @@ if (-not $dism_module) {
 $dism_module = Get-Module -ListAvailable -Name DISM
 if ($dism_module) {
     Write-Output "DISM module is available."
+    return $true
 } else {
     Write-Output "Failed to enable and import the DISM module."
-    exit 1
+    return $false
 }

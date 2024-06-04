@@ -11,8 +11,10 @@ if (-not $AD_module_status) {
 $AD_module_status = Get-Module -ListAvailable -Name ActiveDirectory
 if ($AD_module_status){
     Write-Output "RSAT module sucessfully installed."
+    return $true
 } else{
     Write-Output "Failed installing RSAT module."
+    return $false
 }
 
 

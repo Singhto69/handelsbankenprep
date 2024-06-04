@@ -10,4 +10,5 @@ if ($module_status){
 $domain = Get-ADDomain
 Write-Host $domain
 
-$curuser = Get-ADUser -Filter * -SearchBase 'OU=superou,DC=testdomain,DC=tony,DC=com' | Write-Output $_
+$curuser = Get-ADUser -Filter * -SearchBase 'OU=superou,DC=testdomain,DC=tony,DC=com'
+Write-Host $curuser
