@@ -1,0 +1,72 @@
+sqlcmd -S <Host Computor>\SQL<Type> -E <--- E = use current windows credentials more options -U -P
+
+exec sp_databses; <--- view databases
+
+IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'tonysdb') PRINT 'No exist'; ELSE PRINT 'EXISTS';
+GO
+
+CREATE DATABASE testdb;
+GO
+
+USE db;
+GO
+
+SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';
+GO
+
+CREATE TABLE testtable (
+	uid INT PRIMARY KEY,
+	Name NVARCHAR(50) NOT NULL,
+	date DATE NOT NULL,
+	superid INT,
+	FOREIGN KEY(superid) REFERENCES <table>(superid) 
+);
+
+
+
+SELECT * from table;
+
+SELECT
+	COLUMN_NAME,
+	DATA_TYPE,
+	CHARACTER_MAXIMUM_LENGTH,
+	IS_NULLABLE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'testtable';
+
+
+INSERT INTO testtable ( uid , Name , date) VALUES ( 1 , 'tester' , '2024-06-05' );
+
+DELETE FROM testtable WHERE name = 'tester' ;
+
+ALTER TABLE testtable ADD email nvarchar(50);
+ALTER TABLE testtable DROP COLUMN email;
+
+
+
+Variable types:
+Int : stores an integer value
+Bigint : 
+Smallint 
+Tinyint
+Decimal(p,s) or numeric(p,s) : precision int , p = max stored digits , s = same but after decimal
+float(n) : n = bits
+real
+
+Date: (year,month,day)
+Time ( Hours , minutes , seconds , second fractions )
+smalldatetime
+
+Char
+varchar
+text
+
+n = unicode
+nchar
+nvarchar
+ntext 
+
+BINARY
+bit
+
+
