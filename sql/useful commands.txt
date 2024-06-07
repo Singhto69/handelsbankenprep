@@ -1,0 +1,124 @@
+sqlcmd -S <Host Computor>\SQL<Type> -E <--- E = use current windows credentials more options -U -P
+sqlcmd -S .\SQLEXPRESS -E
+
+
+
+exec sp_databses; <--- view databases
+
+IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'tonysdb') PRINT 'No exist'; ELSE PRINT 'EXISTS';
+GO
+
+CREATE DATABASE testdb;
+GO
+
+USE db;
+GO
+
+SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';
+GO
+
+CREATE TABLE testtable (
+	uid INT PRIMARY KEY IDENTITY,
+	Name NVARCHAR(50) NOT NULL,
+	date DATE NOT NULL
+);
+Extras:
+superid INT,
+	FOREIGN KEY(superid) REFERENCES <table>(superid) 
+
+FROM -> WHERE -> SELECT
+
+SELECT * from table;
+
+SELECT * from table WHERE condition = 'val' ;
+
+SELECT * from table WHERE condition = 'val' ORDER BY <column_name>;
+
+SELECT val , COUNT(*) FROM table WHERE condition = 'val' GROUP BY column_name ORDER BY column_name [DESC/ASC];
+
+ORDER BY LEN(column_name) [ASC/DESC];
+
+ORDER BY column_name1 , column_name2 [ASC/DESC] OFFSET offset_row_count FETCH NEXT 10 ROWS ONLY; 
+
+
+First columns are defined , then from which schema.tables they are and their alias. here its c and e.
+the output is a venn diagram basicly
+
+select c.id candidate_id,
+c.fullname candidate_name,
+e.id employee_id,
+e.fullname employee_name
+FROM
+hr.candidates c
+INNER JOIN hr.employees e
+ON e.fullname = c.fullname;
+
+ex: 10 most expensive items,
+
+SELECT product_name, list price FROM production.products ORDER BY list_price DESC, product name OFFSET 0 ROWS FETCH FIRST 10 ROWS ONLY;
+
+
+SELECT
+	COLUMN_NAME,
+	DATA_TYPE,
+	CHARACTER_MAXIMUM_LENGTH,
+	IS_NULLABLE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'testtable';
+
+
+INSERT INTO testtable ( uid , Name , date) VALUES ( 1 , 'tester' , '2024-06-05' );
+
+DELETE FROM testtable WHERE name = 'tester' ;
+
+ALTER TABLE testtable ADD email nvarchar(50);
+ALTER TABLE testtable DROP COLUMN email;
+
+
+
+Variable types:
+Int : stores an integer value
+Bigint : 
+Smallint 
+Tinyint
+Decimal(p,s) or numeric(p,s) : precision int , p = max stored digits , s = same but after decimal
+float(n) : n = bits
+real
+
+Date: (year,month,day)
+Time ( Hours , minutes , seconds , second fractions )
+smalldatetime
+
+Char
+varchar
+text
+
+n = unicode
+nchar
+nvarchar
+ntext 
+
+BINARY
+bit
+
+CREATE SCHEMA <name> AUTHORIZATION dbo;
+
+SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA
+SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'HR' AND TABLE:_TYPE= 'BASE_TABLE';
+
+SELECT
+	COLUMN_NAME,
+	DATA_TYPE,
+	CHARACTER_MAXIMUM_LENGTH,
+	IS_NULLABLE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_SCHEMA = '' AND TABLE_NAME = 'testtable';
+
+CREATE TABLE HR.EMPLOYEES(
+	ID INT PRIMARY KEY,
+	Name NVARCHAR(50)
+);
+
+SELECT Name FROM HR.EMPLOYEES;
+
+
